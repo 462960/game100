@@ -1,0 +1,191 @@
+@import "normalize";
+
+/* Breakpoints */
+$bp-small: 280px;
+$bp-tablet: 450px;
+$bp-desktop: 850px;
+
+* {
+  box-sizing: border-box;
+}
+
+.wodo {
+  color: red;
+  font-size: 16px;
+}
+
+.wrapper {
+  min-width: $bp-small;
+}
+
+.controls-wrapper {
+  @media (min-width: $bp-desktop) {
+    display: flex;
+  }
+  .inputs-wrapper {
+    .city-input {
+      width: 280px;
+      margin: 0 auto;
+    }
+    @media (min-width: $bp-tablet) {
+      display: flex;
+      .city-input-wrapper {
+        flex: 4;
+        .city-input {
+          width: 280px;
+          margin: 30px auto;
+        }
+      }
+
+      .switchers-wrap {
+        flex: 0.3;
+      }
+    }
+    @media (min-width: $bp-desktop) {
+      flex: 2;
+    }
+  }
+
+  .chips-wrap {
+    @media (min-width: $bp-desktop) {
+      flex: 1;
+    }
+    padding: 5px;
+    overflow: hidden;
+    .chip {
+      width: auto;
+      float: left;
+      margin: 0 6px 6px 0 !important;
+    }
+  }
+}
+
+.loader {
+  margin: 0 auto;
+  width: 60%;
+  height: 60%;
+  @media (min-width: $bp-tablet) {
+    width: 150px;
+    height: 150px;
+  }
+}
+
+.weather-icon {
+  height: 50px;
+  width: 50px;
+}
+
+/* DayItem styles */
+.day-item {
+  margin: 5px auto;
+  width: 95%;
+  & > div {
+    padding: 1px 17px 10px;
+    @media (min-width: $bp-tablet) {
+      padding: 10px 10px 20px;
+    }
+  }
+  h4,
+  h5,
+  h6 {
+    text-align: center;
+  }
+
+  @media (min-width: $bp-tablet) {
+    width: 80%;
+  }
+}
+
+.item-description {
+  overflow: hidden;
+  padding: 10px 0;
+  p {
+    float: left;
+  }
+  img {
+    float: right;
+    width: 116px;
+  }
+}
+
+.temp-wind-wrapper {
+  overflow: hidden;
+
+  .temp-holder {
+    float: left;
+    width: 50%;
+    border-right: 1px solid #e4eaeb;
+    padding-right: 20px;
+
+    & > div {
+      overflow: hidden;
+      padding-bottom: 5px;
+
+      div {
+        float: left;
+      }
+
+      span {
+        float: right;
+      }
+    }
+  }
+
+  .wind-holder {
+    float: right;
+    width: 100px;
+
+    div {
+      text-align: center;
+    }
+  }
+}
+
+/* WeekContainer styles */
+.week-content-wrapper {
+
+  h4 {
+    text-align: center;
+  }
+  overflow: hidden;
+  width: 95%;
+  padding: 10px;
+  margin: 0 auto;
+
+  @media (min-width: $bp-tablet) {
+    width: 85%;
+  }
+  
+  .week-content-item {
+    margin-bottom: 10px;
+    & > div {
+      padding: 1px 17px 10px;
+    }
+    @media (min-width: $bp-desktop) {
+      float: left;
+      width: 49%;
+      &:nth-child(2n + 1) {
+        float: right;
+      }
+    }
+  }
+}
+
+//Chips transition
+.chippo-enter {
+  opacity: 0.01;
+}
+
+.chippo-enter.chippo-enter-active {
+  opacity: 1;
+  transition: opacity 500ms ease-in;
+}
+
+.chippo-leave {
+  opacity: 1;
+}
+
+.chippo-leave.chippo-leave-active {
+  opacity: 0.01;
+  transition: opacity 300ms ease-in;
+}
