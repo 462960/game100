@@ -7,7 +7,11 @@ import { ErrorBoundary } from "Components/ErrorBoundary";
 export class GameContainer extends React.Component{
   state = {
     gamerScore: 0,
-    computerScore: 0
+    computerScore: 0,
+    delay: 3000,
+    isGameStarted: false,
+    active: '',
+    catched: ''
   }
 
   componentDidMount(){
@@ -20,25 +24,72 @@ export class GameContainer extends React.Component{
 })
   }
 
-  clickActive = (e) =>{
+  getScore = (catched) => {
+    const {active} = this.state;
+
     this.setState({
-     // [e.target.id]
-     gamerScore: this.state.gamerScore + 1
-    })
-console.log(e.target.value)
+  catched
+})
+
+     if(active === catched){
+      this.setState({
+        gamerScore: this.state.gamerScore + 1
+      })
+    } else if(active !== catched){
+      this.setState({
+        computerScore: this.state.computerScore + 1
+      })
+    }
   }
+
+  getValue = (e) =>{
+    const {isGameStarted} = this.state;
+    e.preventDefault();
+
+    this.setState({
+      [e.target.id]: e.target.value
+    })
+
+      if(isGameStarted){
+        this.getScore(e.target.value)
+        }
+      }
+
+  gameStart = () => {
+    const {
+      delay,
+      computerScore,
+      gamerScore
+  } = this.state;
+
+
+       this.setState({
+      isGameStarted: true,
+      active: Math.ceil(Math.random()*100)
+    })
+
+  setTimeout(() => {
+      this.setState({
+        isGameStarted: false,
+        catched: ''
+      })
+    }, delay)
+   }
 
   render(){
 
-    console.log(this.state.gamerScore)
-    return(
+  return(
     <ErrorBoundary>
       <TopBar/>
-      <div>
-        <InteractiveBar/>
+      <div className="game-container">
+        <InteractiveBar
+        {...this.state}
+        getValue={this.getValue}
+        gameStart={this.gameStart}
+        />
       <GameBody
       {...this.state}
-      clickActive={this.clickActive}
+      getValue={this.getValue}
       />
       </div>
       </ErrorBoundary>

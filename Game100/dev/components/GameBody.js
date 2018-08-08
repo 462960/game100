@@ -1,15 +1,22 @@
 import React from 'react';
-import * as cn from 'classnames';
+import  cn from 'classnames';
 
  export const GameBody = ({
      units,
-     clickActive
+     getValue,
+     active,
+     isGameStarted,
+     catched
     }) => {
    
-
    const gameSquare = (units || []).map(x => 
                  <li
-                 onClick={clickActive}
+                 className={cn("blue", {
+                     yellow: isGameStarted && x === active,
+                     green: isGameStarted && x === catched && x === active,
+                     red: isGameStarted && x === catched && x !== active,
+                 })}
+                 onClick={getValue}
                  value={x}
                  id={x} 
                  key={x}>
@@ -17,7 +24,7 @@ import * as cn from 'classnames';
                  </li>
              )
 
-    return(      <ul>
+    return(      <ul className="unit-wrapper">
                      {gameSquare}
                  </ul>
     )
