@@ -1,11 +1,13 @@
 import React from 'react';
+import  cn from 'classnames';
 
 export const InteractiveBar = ({
     gamerScore,
     computerScore,
     getValue,
     delay,
-    gameStart
+    gameStart,
+    isGameStarted
 }) => {
 
     return(
@@ -22,11 +24,13 @@ export const InteractiveBar = ({
                 />
                 </div>
                 <button
+                // className={cn({disabled: isGameStarted})}
+                // disabled={isGameStarted}
                 type="button"
                 onClick={gameStart}
                 >
                     Start the game
-                    </button>
+                    </button> 
         </div>
     )
 }

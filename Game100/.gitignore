@@ -55,6 +55,5 @@ sandbox
 source
 README.mdn
 dev/images
-.env_dev
-.env_prod
+
 
