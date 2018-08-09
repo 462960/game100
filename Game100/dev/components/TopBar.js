@@ -8,7 +8,7 @@ import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
 import darkBaseTheme from "material-ui/styles/baseThemes/darkBaseTheme";
 
 // GitHub account link
-const linkGitHub = "https://github.com/462960/corunaSlider";
+const linkGitHub = "https://github.com/462960/game100";
 
 export const TopBar = () => (
   <MuiThemeProvider muiTheme={getMuiTheme(darkBaseTheme)}>

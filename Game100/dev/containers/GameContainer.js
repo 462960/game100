@@ -9,10 +9,12 @@ export class GameContainer extends React.Component{
   state = {
     gamerScore: 0,
     computerScore: 0,
-    delay: 3000,
+    delay: 1000,
     isGameStarted: false,
     active: '',
-    catched: ''
+    catched: '',
+    gamerWon: false,
+    isModalOpen: false
   }
 
   componentDidMount(){
@@ -28,44 +30,69 @@ export class GameContainer extends React.Component{
   componentDidUpdate(prevProps, prevState){
     if(
       (
-       // this.state.isGameStarted === true &&
+        this.state.isGameStarted === true &&
         this.state.gamerScore !== prevState.gamerScore &&
       this.state.gamerScore < 5) || 
       (
-        //this.state.isGameStarted === true &&
+        this.state.isGameStarted === true &&
         this.state.computerScore !== prevState.computerScore &&
         this.state.computerScore < 5)
     ){ 
+    
     setTimeout(() => {
       this.setState({
       active: getRandom(),
       isGameStarted: true,
       catched: ''
      })
-    }, this.state.delay/3)
+    }, this.state.delay)
     }
 
     if(
       this.state.catched !== prevState.catched &&
-      (this.state.computerScore === 5 ||
-    this.state.gamerScore === 5)
+      this.state.computerScore === 5 
+    
     ){
-    setTimeout (() => { this.setState({
+    setTimeout (() => { 
+      console.log('Computer won!')
+      this.setState({
         isGameStarted: false,
         active: '',
-        catched: ''
+        catched: '',
+        isModalOpen: true
 
-      })}, this.state.delay*1.5)
+      })}, this.state.delay*1.2)
+
+      setTimeout(() => {
+        this.setState({
+         isModalOpen: false
+        })
+      }, this.state.delay*2)
     }
 
-  //   setTimeout(() => {
-  //     if(
-  //       this.state.isGameStarted &&
-  //       this.state.catched === prevState.catched
-  //     ){
-  //     console.log('Lost')
-  //   }
-  // }, this.state.delay)
+    if(
+      this.state.catched !== prevState.catched &&
+      this.state.gamerScore === 5
+    ){
+    setTimeout (() => { 
+      console.log('Gamer won!')
+      this.setState({
+        isGameStarted: false,
+        active: '',
+        catched: '',
+        gamerWon: true,
+        isModalOpen: true
+
+      })}, this.state.delay*1.2)
+
+      setTimeout(() => {
+        this.setState({
+          gamerWon: false,
+        isModalOpen: false
+        })
+      }, this.state.delay*2)
+    }
+
   }
 
   getScore = (catched) => {
@@ -99,29 +126,7 @@ export class GameContainer extends React.Component{
         }
       }
 
-  gameLoop = () => {
-    const {
-      delay,
-      computerScore,
-      gamerScore,
-      catched
-  } = this.state;
-
-
-       this.setState({
-        active: getRandom()
-    })
-
-  // setTimeout(() => {
-  //       this.setState({
-  //       isGameStarted: false,
-  //       active: '',
-  //       catched: ''
-  //     })
-  //   }, delay)
-   }
-
-   gameStart = () => {
+  gameStart = () => {
     const {
       delay,
       computerScore,
@@ -132,9 +137,8 @@ export class GameContainer extends React.Component{
     gamerScore: 0,
     computerScore: 0,
     isGameStarted: true,
+    active: getRandom()
    })
-
-  this.gameLoop();
    }
 
 
