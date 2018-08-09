@@ -12,7 +12,7 @@ export class Modal extends React.Component {
           {gamerWon ? (
             <div className="winner">Congrats! You're the winner!</div>
           ) : (
-            <div className="loser">Sorry, you've lost...</div>
+            <div className="loser">Sorry, you've lost the game...</div>
           )}
         </Dialog>
       </MuiThemeProvider>

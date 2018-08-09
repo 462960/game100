@@ -10,12 +10,14 @@ export class GameContainer extends React.Component {
   state = {
     gamerScore: 0,
     computerScore: 0,
-    delay: 3000,
+    delay: 2000,
     isGameStarted: false,
     active: "",
-    catched: "c",
+    catched: "",
     gamerWon: false,
-    isModalOpen: false
+    isModalOpen: false,
+    failTimeout: null,
+    prolongTimeout: null
   };
 
   componentDidMount() {
@@ -26,121 +28,110 @@ export class GameContainer extends React.Component {
     this.setState({
       units
     });
+
+    // this.prolongGame = this.prolongGame.bind(this);
+    // this.userFailedInTime = this.userFailedInTime.bind(this);
   }
 
-  componentDidUpdate(prevProps, prevState) {
-    // Case of user clicked button
+  prolongGame() {
+     setTimeout(() => {
+      this.setState({
+        active: getRandom(),
+        catched: ""
+      });
+    }, this.state.delay);
+  }
+
+  userFailedInTime() {
+    return setTimeout(() => {
+      this.setState({
+        catched: "",
+        active: getRandom(),
+        computerScore: this.state.computerScore + 1
+      });
+    }, this.state.delay);
+  }
+
+  componentDidUpdate() {
+    const {
+      isGameStarted,
+      catched,
+      active,
+      computerScore,
+      gamerScore
+    } = this.state;
+
+  //  console.log(this.userFailedInTime())
+
+      // Case of high scores
     if (
-      (this.state.catched !== prevState.catched &&
-        this.state.catched !== "lost" &&
-        this.state.isGameStarted &&
-        this.state.gamerScore !== prevState.gamerScore &&
-        this.state.gamerScore < 5) ||
-      (this.state.catched !== prevState.catched &&
-        this.state.catched !== "lost" &&
-        this.state.isGameStarted &&
-        this.state.computerScore !== prevState.computerScore &&
-        this.state.computerScore < 5)
+      isGameStarted &&
+      (computerScore > 4 || gamerScore > 4)
     ) {
-      setTimeout(() => {
-        this.setState({
-          active: getRandom(),
-          catched: ""
-        });
-      }, this.state.delay / 2);
+      console.log("Stop the game!");
+      clearTimeout(this.prolongGame());
+      clearTimeout(this.userFailedInTime());
+      this.setState({
+        isGameStarted: false
+      });
+
+      // Case of user clicked button
+    } else if (
+      typeof catched === "number" &&
+      isGameStarted &&
+      gamerScore < 5 &&
+      computerScore < 5
+    ) {
+      console.log(`User clicked button! ${isGameStarted}`);
+      clearTimeout(this.userFailedInTime());
+      clearTimeout(this.prolongGame());
+      this.prolongGame();
+
+      //Case of user faled to click in time
     }
-
-    // Case of user failed to click in time
-    setTimeout(() => {
-      if (
-        this.state.isGameStarted &&
-        this.state.catched !== "lost" &&
-        //  this.state.active !== prevState.active &&
-        this.state.catched === prevState.catched &&
-        this.state.computerScore < 5 &&
-        this.state.gamerScore < 5
-        //  this.state.gamerScore === prevState.gamerScore
-      ) {
-        console.log("Lost case");
-        this.setState({
-          catched: "lost",
-          computerScore: this.state.computerScore + 1
-        });
-      }
-    }, this.state.delay);
-
-    setTimeout(() => {
-      if (
-        this.state.isGameStarted &&
-        this.state.catched === "lost" &&
-        // this.state.active !== prevState.active &&
-        // this.state.catched === prevState.catched &&
-        this.state.computerScore < 5 &&
-        this.state.gamerScore < 5
-        // this.state.gamerScore === prevState.gamerScore
-      ) {
-        console.log("After Lost lounch case");
-        this.setState({
-          catched: "c",
-          active: getRandom()
-        });
-      }
-    }, this.state.delay);
-
-    //  if(this.state.catched === 'lost'){
-    //    setTimeout(() => {
-    //       this.setState({
-    //     catched: 'c',
-
-    //    })
-    //    }, this.state.delay/2)
-
-    //    setTimeout(() => {
-    //     this.setState({
-    //   catched: 'c',
-    //   active: getRandom(),
-    //  })
-    //  }, this.state.delay)
-
-    //  }
+    //  else if(
+    //   isGameStarted &&
+    //   gamerScore < 5 &&
+    //   computerScore < 5
+    // ){
+    //  console.log(`Waiting for a click ${isGameStarted}, ${this.userFailedInTime}`)
+    //   clearTimeout(this.userFailedInTime());
+    //   clearTimeout(this.prolongGame());
+    //  this.userFailedInTime();
+    // }
 
     // Modals conditional
-    if (
-      this.state.catched !== prevState.catched &&
-      this.state.computerScore === 5
-    ) {
-      this.setState({
-        isGameStarted: false,
-        active: "",
-        catched: "",
-        isModalOpen: true
-      });
+    if (active && 
+      computerScore === 5) {
+      setTimeout(() => {
+        this.setState({
+          active: "",
+          catched: "",
+          isModalOpen: true
+        });
+      }, 2500);
 
       setTimeout(() => {
         this.setState({
           isModalOpen: false
         });
-      }, 2000);
-    }
-
-    if (
-      this.state.catched !== prevState.catched &&
-      this.state.gamerScore === 5
-    ) {
-      this.setState({
-        isGameStarted: false,
-        active: "",
-        catched: "",
-        gamerWon: true,
-        isModalOpen: true
-      });
+      }, 4000);
+    } else if (catched && gamerScore === 5) {
+      setTimeout(() => {
+        this.setState({
+          active: "",
+          catched: "",
+          gamerWon: true,
+          isModalOpen: true
+        });
+      }, 2500);
 
       setTimeout(() => {
         this.setState({
           gamerWon: false,
           isModalOpen: false
         });
-      }, 2000);
+      }, 4000);
     }
   }
 
@@ -176,9 +167,10 @@ export class GameContainer extends React.Component {
   };
 
   gameStart = () => {
-    const { delay, computerScore, gamerScore } = this.state;
-
+   
     this.setState({
+      active: "",
+      catched: "",
       gamerScore: 0,
       computerScore: 0,
       isGameStarted: true,

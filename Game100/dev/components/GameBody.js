@@ -5,18 +5,14 @@ export const GameBody = ({
   units,
   getValue,
   active,
-  isGameStarted,
   catched
 }) => {
-  // console.log(catched)
   const gameSquare = (units || []).map(x => (
     <li
       className={cn("blue", {
-        yellow: isGameStarted && x === active,
-        green: isGameStarted && x === catched && x === active,
-        red:
-          (isGameStarted && x === catched && x !== active) ||
-          (isGameStarted && catched === "lost" && x === active)
+        yellow:  x === active,
+        green: x === catched && x === active,
+        red: x === catched && x !== active
       })}
       onClick={getValue}
       value={x}
