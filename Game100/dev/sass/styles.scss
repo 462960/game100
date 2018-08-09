@@ -6,23 +6,29 @@
 
 .game-container {
   margin: 30px auto;
+  padding: 1%;
   min-width: 500px;
   width: 80%;
-  border: 1px solid red;
+  -webkit-box-shadow: 0 0 5px 3px rgba(0,0,0,.1); 
+box-shadow: 0 0 5px 3px rgba(0,0,0,.1);
+}
+
+.interactive-bar-wrapper {
+  padding: 0 1%;
 }
 
 .unit-wrapper{
   overflow: hidden;
-  width: 98%;
-  margin: 0 auto;
+  width: 99%;
+  margin: 5px auto 0;
   li {
     list-style: none;
     text-align: center;
     cursor: pointer;
-    
-    width: 9.8%;
-    height: 9.8%;
-    margin: 0 .2% .2% 0;
+    border-radius: 3px;
+    width: 9.5%;
+   padding: 5px 0;
+    margin: 0 .54% .54% 0;
     float: left;
     &:nth-child(10n){
       float: right;
@@ -47,42 +53,10 @@
   background: #ff7373;
 }
 
-.disabled {
-  cursor: not-allowed;
+.winner {
+  color: #559900;
 }
 
-
-  
-  // .week-content-item {
-  //   margin-bottom: 10px;
-  //   & > div {
-  //     padding: 1px 17px 10px;
-  //   }
-  //   @media (min-width: $bp-desktop) {
-  //     float: left;
-  //     width: 49%;
-  //     &:nth-child(2n + 1) {
-  //       float: right;
-  //     }
-  //   }
-  // }
-
-
-//Chips transition
-.chippo-enter {
-  opacity: 0.01;
-}
-
-.chippo-enter.chippo-enter-active {
-  opacity: 1;
-  transition: opacity 500ms ease-in;
-}
-
-.chippo-leave {
-  opacity: 1;
-}
-
-.chippo-leave.chippo-leave-active {
-  opacity: 0.01;
-  transition: opacity 300ms ease-in;
+.loser {
+  color: #cc181e;
 }
