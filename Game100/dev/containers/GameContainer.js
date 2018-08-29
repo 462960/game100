@@ -15,9 +15,7 @@ export class GameContainer extends React.Component {
     active: "",
     catched: "",
     gamerWon: false,
-    isModalOpen: false,
-    failTimeout: null,
-    prolongTimeout: null
+    isModalOpen: false
   };
 
   componentDidMount() {
@@ -28,11 +26,10 @@ export class GameContainer extends React.Component {
     this.setState({
       units
     });
-
   }
 
   prolongGame() {
-  this.state.prolongID =  setTimeout(() => {
+    this.state.prolongID = setTimeout(() => {
       this.setState({
         active: getRandom(),
         catched: ""
@@ -45,16 +42,9 @@ export class GameContainer extends React.Component {
       this.setState({
         catched: "fail",
         active: getRandom(),
-         computerScore: this.state.computerScore + 1
+        computerScore: this.state.computerScore + 1
       });
     }, this.state.delay);
-
-    // this.state.restartID = setTimeout(() => {
-    //   this.setState({
-    //     catched: "",
-    //     active: getRandom(),
-    //     });
-    // }, this.state.delay*1.2);
   }
 
   componentDidUpdate() {
@@ -65,20 +55,14 @@ export class GameContainer extends React.Component {
       computerScore,
       gamerScore,
       prolongID,
-      failID,
-    //  restartID
+      failID
     } = this.state;
 
-      // Case of high scores
-    if (
-      isGameStarted &&
-      (computerScore > 4 || gamerScore > 4)
-    ) {
-      console.log("Stop the game!");
-      clearTimeout(prolongID)
+    // Case of high scores
+    if (isGameStarted && (computerScore > 4 || gamerScore > 4)) {
+      clearTimeout(prolongID);
       clearTimeout(failID);
-    //  clearTimeout(restartID);
-       this.setState({
+      this.setState({
         isGameStarted: false
       });
 
@@ -89,29 +73,19 @@ export class GameContainer extends React.Component {
       gamerScore < 5 &&
       computerScore < 5
     ) {
-      console.log(`User clicked button! ${prolongID, failID}`);
       clearTimeout(failID);
-    //  clearTimeout(restartID);
       clearTimeout(prolongID);
       this.prolongGame();
 
       //Case of user faled to click in time
-    }
-     else if(
-      isGameStarted &&
-      gamerScore < 5 &&
-      computerScore < 5
-    ){
-     console.log(`Waiting for a click ${prolongID, failID}`)
-     clearTimeout(failID);
-    // clearTimeout(restartID);
-     clearTimeout(prolongID);
-     this.userFailedInTime();
+    } else if (isGameStarted && gamerScore < 5 && computerScore < 5) {
+      clearTimeout(failID);
+      clearTimeout(prolongID);
+      this.userFailedInTime();
     }
 
     // Modals conditional
-    if (active && 
-      computerScore === 5) {
+    if (active && computerScore === 5) {
       setTimeout(() => {
         this.setState({
           active: "",
@@ -176,7 +150,6 @@ export class GameContainer extends React.Component {
   };
 
   gameStart = () => {
-   
     this.setState({
       active: "",
       catched: "",

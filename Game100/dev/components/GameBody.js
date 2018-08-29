@@ -1,16 +1,11 @@
 import React from "react";
 import cn from "classnames";
 
-export const GameBody = ({
-  units,
-  getValue,
-  active,
-  catched
-}) => {
+export const GameBody = ({ units, getValue, active, catched }) => {
   const gameSquare = (units || []).map(x => (
     <li
       className={cn("blue", {
-        yellow:  x === active,
+        yellow: x === active,
         green: x === catched && x === active,
         red: x === catched && x !== active
       })}

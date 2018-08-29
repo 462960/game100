@@ -7,7 +7,7 @@ export const InteractiveBar = ({
   getValue,
   delay,
   gameStart
- }) => {
+}) => {
   return (
     <div className="interactive-bar-wrapper">
       <div>
